@@ -1,0 +1,38 @@
+name: Deploy Nginx CI/CD App to EC2
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create private key file
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Copy project files to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i private_key.pem -r \
+            ./* ./.github \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/devops-cicd-nginx-project
+
+      - name: Deploy Flask backend on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/ec2-user/devops-cicd-nginx-project
+            docker stop flask-backend || true
+            docker rm flask-backend || true
+            docker build -t devops-cicd-nginx-app .
+            docker run -d -p 5000:5000 --name flask-backend devops-cicd-nginx-app
+            sudo nginx -t
+            sudo systemctl reload nginx
+          EOF
