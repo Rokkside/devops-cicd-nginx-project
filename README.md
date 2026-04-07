@@ -32,4 +32,13 @@ This project demonstrates an end-to-end CI/CD pipeline that deploys a containeri
 ## Deployment Walkthrough
 
 ### 1. Project Initialization
-![Project Initialization](screenshots/01-Project initialization (new production-ready CI:CD pipeline).png)
+![Project Initialization](screenshots/01-project-initialization.png)
+
+### 2. Project Scaffolding
+![Project Scaffolding](screenshots/02-project-scaffolding.png)
+
+### 3. Application Code
+![Application Code](screenshots/03-application-code.png)
+
+### 4. Dependencies Installation
+![Dependencies](screenshots/04-dependencies.png)
