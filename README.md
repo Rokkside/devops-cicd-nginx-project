@@ -28,3 +28,8 @@ This project demonstrates an end-to-end CI/CD pipeline that deploys a containeri
 - Reverse proxy setup (port 80)
 - Production-style architecture
 - Foundation for Terraform automation
+
+## Deployment Walkthrough
+
+### 1. Project Initialization
+![Project Initialization](screenshots/01-Project initialization (new production-ready CI:CD pipeline).png)
